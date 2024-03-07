@@ -8,23 +8,24 @@ class ThemedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 0.5, sigmaY: 0.5),
-      child: Container(
-        padding: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: Theme.of(context).primaryColor,
-          //     spreadRadius: 0,
-          //     blurRadius: 2,
-          //   ),
-          // ],
-          borderRadius: BorderRadius.circular(16),
-          // color: Theme.of(context).cardColor
+    return ClipRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+        child: Container(
+          padding: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+              // boxShadow: [
+              //   BoxShadow(
+              //     color: Theme.of(context).primaryColor,
+              //     spreadRadius: 0,
+              //     blurRadius: 2,
+              //   ),
+              // ],
+              borderRadius: BorderRadius.circular(4),
+              color: Theme.of(context).cardColor),
+          alignment: Alignment.topLeft,
+          child: child,
         ),
-        alignment: Alignment.topLeft,
-        child: child,
       ),
     );
   }

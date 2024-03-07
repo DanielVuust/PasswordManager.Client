@@ -24,7 +24,7 @@ class HomePasswordStoreCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        password.friendlyName ?? "",
+                        password.title ?? "",
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       Padding(padding: EdgeInsets.all(8)),
