@@ -34,7 +34,7 @@ class HomePasswordStoreCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  HomePasswordStoreCardOpen(
+                  HomePasswordStoreCardOpenButton(
                     password: password,
                   )
                 ]),

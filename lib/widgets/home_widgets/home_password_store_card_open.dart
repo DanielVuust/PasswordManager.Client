@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../models/dto_models/password.dart';
 
-class HomePasswordStoreCardOpen extends StatelessWidget {
-  const HomePasswordStoreCardOpen({super.key, required this.password});
+class HomePasswordStoreCardOpenButton extends StatelessWidget {
+  const HomePasswordStoreCardOpenButton({super.key, required this.password});
   final Password password;
 
   @override

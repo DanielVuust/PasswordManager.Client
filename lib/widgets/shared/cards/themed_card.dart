@@ -10,7 +10,7 @@ class ThemedCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRect(
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
+        filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
         child: Container(
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
