@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:password_manager_client/models/blocs/vault_bloc/bloc/vault_bloc.dart';
 
+import '../shared/progress_indicators/circular_generic_progress_indicator.dart';
 import 'home_password_store_card.dart';
 
 class HomePasswordStores extends StatefulWidget {
@@ -18,11 +19,9 @@ class _HomePasswordStoresState extends State<HomePasswordStores> {
       stream: BlocProvider.of<VaultBloc>(context).vaultState,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          print("test");
-          return Align(alignment: Alignment.topCenter, child: Placeholder());
+          return const CircularGenericProgessIndicator();
         } else if (!snapshot.hasData) {
-          print(snapshot.data);
-          return Placeholder();
+          return const CircularGenericProgessIndicator();
         } else {
           var list = List<HomePasswordStoreCard>.generate(
             snapshot.data!.passwords.length,

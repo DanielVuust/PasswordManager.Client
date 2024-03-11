@@ -14,13 +14,13 @@ class CreatePasswordVaultValueInputContainer extends StatelessWidget {
     return Column(
       children: [
         TextFormField(
-          controller: TextEditingController(text: newPassword.friendlyName),
+          controller: TextEditingController(text: newPassword.title),
           decoration: const InputDecoration(
             border: UnderlineInputBorder(),
             labelText: 'Name',
           ),
           onChanged: (value) {
-            newPassword.friendlyName = value;
+            newPassword.title = value;
           },
         ),
         TextFormField(
@@ -44,13 +44,13 @@ class CreatePasswordVaultValueInputContainer extends StatelessWidget {
           },
         ),
         TextFormField(
-          controller: TextEditingController(text: newPassword.password),
+          controller: TextEditingController(text: newPassword.key),
           decoration: const InputDecoration(
             border: UnderlineInputBorder(),
             labelText: 'Password',
           ),
           onChanged: (value) {
-            newPassword.password = value;
+            newPassword.key = value;
           },
           obscureText: true,
           enableSuggestions: false,

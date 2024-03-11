@@ -5,6 +5,7 @@ import 'package:password_manager_client/widgets/create_new_vault_values_widgets.
 import 'package:password_manager_client/widgets/shared/cards/themed_card.dart';
 
 import '../../models/blocs/create_vault_value_bloc/bloc/create_vault_value_bloc.dart';
+import '../shared/progress_indicators/circular_generic_progress_indicator.dart';
 
 class CreateVaultValueContainer extends StatefulWidget {
   const CreateVaultValueContainer({super.key});
@@ -17,28 +18,32 @@ class CreateVaultValueContainer extends StatefulWidget {
 class _CreateVaultValueContainerState extends State<CreateVaultValueContainer> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<CreateVaultValueState>(
-        stream: BlocProvider.of<CreateVaultValueBloc>(context)
-            .createVaultValueState,
-        initialData: CreateVaultValueInitial(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Placeholder();
-          } else {
-            return ThemedCard(
-              child: Column(
-                children: [
-                  const Text("Create new Vault Value"),
-                  SelectVaultValueTypeSection(value: snapshot.data!.valueType),
-                  if (snapshot.data!.valueType == "password")
-                    CreatePasswordVaultValueInputContainer(
-                      newPassword: snapshot.data!.newPassword,
-                    ),
-                  if (snapshot.data!.valueType == "creditCard") Placeholder(),
-                ],
-              ),
-            );
-          }
-        });
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: ThemedCard(
+        child: StreamBuilder<CreateVaultValueState>(
+            stream: BlocProvider.of<CreateVaultValueBloc>(context)
+                .createVaultValueState,
+            initialData: CreateVaultValueInitial(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const CircularGenericProgessIndicator();
+              } else {
+                return Column(
+                  children: [
+                    const Text("Create new Vault Value"),
+                    SelectVaultValueTypeSection(
+                        value: snapshot.data!.valueType),
+                    if (snapshot.data!.valueType == "password")
+                      CreatePasswordVaultValueInputContainer(
+                        newPassword: snapshot.data!.newPassword,
+                      ),
+                    if (snapshot.data!.valueType == "creditCard") Placeholder(),
+                  ],
+                );
+              }
+            }),
+      ),
+    );
   }
 }

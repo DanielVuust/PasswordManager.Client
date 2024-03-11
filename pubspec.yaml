@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_bloc: ^8.1.4
   logger: ^2.1.0
+  animated_background: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -11,13 +11,13 @@ class PasswordScreenInputSection extends StatelessWidget {
     return Column(
       children: [
         TextFormField(
-          controller: TextEditingController(text: password.friendlyName),
+          controller: TextEditingController(text: password.title),
           decoration: const InputDecoration(
             border: UnderlineInputBorder(),
             labelText: 'Name',
           ),
           onChanged: (value) {
-            password.friendlyName = value;
+            password.title = value;
           },
         ),
         TextFormField(
@@ -41,7 +41,7 @@ class PasswordScreenInputSection extends StatelessWidget {
           },
         ),
         TextFormField(
-          controller: TextEditingController(text: password.password),
+          controller: TextEditingController(text: password.key),
           decoration: const InputDecoration(
             border: UnderlineInputBorder(),
             labelText: 'Password',
@@ -50,7 +50,7 @@ class PasswordScreenInputSection extends StatelessWidget {
           enableSuggestions: false,
           autocorrect: false,
           onChanged: (value) {
-            password.password = value;
+            password.key = value;
           },
         ),
       ],
