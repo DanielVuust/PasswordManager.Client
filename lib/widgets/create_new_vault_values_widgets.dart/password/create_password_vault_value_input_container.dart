@@ -62,7 +62,7 @@ class CreatePasswordVaultValueInputContainer extends StatelessWidget {
                 .eventSink
                 .add(SaveVaultValueType());
           },
-          child: Text("Gem"),
+          child: Text("Save"),
         )
       ],
     );

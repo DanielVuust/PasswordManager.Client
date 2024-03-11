@@ -6,7 +6,7 @@ class HomeHeaderText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      "Gemte passwords",
+      "Saved Passwords",
       style: Theme.of(context).textTheme.headlineLarge,
     );
   }

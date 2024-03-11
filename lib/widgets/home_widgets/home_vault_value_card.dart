@@ -1,14 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:password_manager_client/models/interfaces/i_vault_value.dart';
 import 'package:password_manager_client/widgets/shared/cards/themed_card.dart';
 
-import '../../models/dto_models/password.dart';
-import 'home_password_store_card_open.dart';
+import 'home_vault_value_card_open_button.dart';
 
-class HomePasswordStoreCard extends StatelessWidget {
-  const HomePasswordStoreCard({super.key, required this.password});
-  final Password password;
+class HomeVaultValueCard extends StatelessWidget {
+  const HomeVaultValueCard({super.key, required this.vaultValue});
+  final IVaultValue vaultValue;
 
   @override
   Widget build(BuildContext context) {
@@ -24,18 +24,18 @@ class HomePasswordStoreCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        password.title ?? "",
+                        vaultValue.title ?? "",
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       Padding(padding: EdgeInsets.all(8)),
                       Text(
-                        password.url ?? "",
+                        vaultValue.subTitle ?? "",
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ],
                   ),
-                  HomePasswordStoreCardOpenButton(
-                    password: password,
+                  HomeVaultValueCardOpenButton(
+                    vaultValue: vaultValue,
                   )
                 ]),
           ),

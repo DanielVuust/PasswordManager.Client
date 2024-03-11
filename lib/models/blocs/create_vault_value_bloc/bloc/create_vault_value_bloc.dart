@@ -2,10 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:logger/logger.dart';
-import 'package:meta/meta.dart';
 import 'package:password_manager_client/models/dto_models/password.dart';
-
-import '../../../../utilities/logging/logger.dart';
 
 part 'create_vault_value_event.dart';
 part 'create_vault_value_state.dart';

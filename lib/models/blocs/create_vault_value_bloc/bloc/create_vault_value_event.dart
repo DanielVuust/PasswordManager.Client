@@ -1,13 +1,13 @@
 part of 'create_vault_value_bloc.dart';
 
 abstract class CreateVaultValueEvent {
-  var log = logger(CreateVaultValueEvent);
+  var log = Logger();
   execute(CreateVaultValueState state);
 }
 
 class SetVaultValueType implements CreateVaultValueEvent {
   @override
-  Logger log = logger(CreateVaultValueEvent);
+  Logger log = Logger();
 
   SetVaultValueType(this.type);
   final String type;
@@ -21,7 +21,7 @@ class SetVaultValueType implements CreateVaultValueEvent {
 
 class SaveVaultValueType implements CreateVaultValueEvent {
   @override
-  Logger log = logger(CreateVaultValueEvent);
+  Logger log = Logger();
 
   SaveVaultValueType();
 

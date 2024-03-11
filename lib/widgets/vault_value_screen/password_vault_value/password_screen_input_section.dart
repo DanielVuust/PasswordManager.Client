@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../models/dto_models/password.dart';
+import '../../../models/dto_models/password.dart';
 
 class PasswordScreenInputSection extends StatelessWidget {
   const PasswordScreenInputSection({super.key, required this.password});

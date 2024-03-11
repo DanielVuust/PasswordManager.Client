@@ -31,7 +31,6 @@ class _CreateVaultValueContainerState extends State<CreateVaultValueContainer> {
               } else {
                 return Column(
                   children: [
-                    const Text("Create new Vault Value"),
                     SelectVaultValueTypeSection(
                         value: snapshot.data!.valueType),
                     if (snapshot.data!.valueType == "password")

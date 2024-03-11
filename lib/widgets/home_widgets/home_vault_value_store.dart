@@ -3,16 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:password_manager_client/models/blocs/vault_bloc/bloc/vault_bloc.dart';
 
 import '../shared/progress_indicators/circular_generic_progress_indicator.dart';
-import 'home_password_store_card.dart';
+import 'home_vault_value_card.dart';
 
-class HomePasswordStores extends StatefulWidget {
-  const HomePasswordStores({super.key});
+class HomeVaultValueStores extends StatefulWidget {
+  const HomeVaultValueStores({super.key});
 
   @override
-  State<HomePasswordStores> createState() => _HomePasswordStoresState();
+  State<HomeVaultValueStores> createState() => _HomeVaultValueStoresState();
 }
 
-class _HomePasswordStoresState extends State<HomePasswordStores> {
+class _HomeVaultValueStoresState extends State<HomeVaultValueStores> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<VaultState>(
@@ -23,9 +23,9 @@ class _HomePasswordStoresState extends State<HomePasswordStores> {
         } else if (!snapshot.hasData) {
           return const CircularGenericProgessIndicator();
         } else {
-          var list = List<HomePasswordStoreCard>.generate(
-            snapshot.data!.passwords.length,
-            (i) => HomePasswordStoreCard(password: snapshot.data!.passwords[i]),
+          var list = List<HomeVaultValueCard>.generate(
+            snapshot.data!.vaultValue.length,
+            (i) => HomeVaultValueCard(vaultValue: snapshot.data!.vaultValue[i]),
           );
 
           return Flexible(

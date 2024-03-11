@@ -1,18 +1,18 @@
 part of 'vault_bloc.dart';
 
 abstract class VaultEvent {
-  var log = logger(VaultEvent);
+  var log = Logger();
   execute(VaultState state);
 }
 
 class GetVaultValues implements VaultEvent {
   @override
-  Logger log = logger(VaultEvent);
+  Logger log = Logger();
 
   @override
   execute(VaultState state) {
     //TODO get value from backend.
-    state.passwords.sort((a, b) => a.id!.compareTo(b.id!));
+    state.vaultValue.sort((a, b) => a.id!.compareTo(b.id!));
 
     return state;
   }
@@ -20,7 +20,7 @@ class GetVaultValues implements VaultEvent {
 
 class SaveVaultPasswordValues implements VaultEvent {
   @override
-  Logger log = logger(VaultEvent);
+  Logger log = Logger();
 
   SaveVaultPasswordValues(this.newPasswordValues);
   final Password newPasswordValues;
@@ -29,9 +29,9 @@ class SaveVaultPasswordValues implements VaultEvent {
   execute(VaultState state) async {
     await Future.delayed(Duration(seconds: 1));
     //TODO save value to backend.
-    state.passwords.removeWhere((i) => i.id == newPasswordValues.id);
-    state.passwords.add(newPasswordValues);
-    state.passwords.sort((a, b) => a.id!.compareTo(b.id!));
+    state.vaultValue.removeWhere((i) => i.id == newPasswordValues.id);
+    state.vaultValue.add(newPasswordValues);
+    state.vaultValue.sort((a, b) => a.id!.compareTo(b.id!));
     return state;
   }
 }

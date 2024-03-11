@@ -1,12 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:logger/src/logger.dart';
-import 'package:meta/meta.dart';
+import 'package:password_manager_client/models/interfaces/i_vault_value.dart';
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
-
-import '../../../../utilities/logging/logger.dart';
 import '../../../dto_models/password.dart';
 
 part 'vault_event.dart';

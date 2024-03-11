@@ -1,8 +1,7 @@
 part of 'vault_bloc.dart';
 
-@immutable
 sealed class VaultState {
-  late List<Password> passwords = <Password>[
+  late List<IVaultValue> vaultValue = <IVaultValue>[
     Password(
         id: 1,
         url: "google.com",
