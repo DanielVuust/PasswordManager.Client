@@ -1,5 +1,7 @@
-import 'package:animated_background/animated_background.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:password_manager_client/models/blocs/create_vault_value_bloc/bloc/edit_vault_value_bloc.dart';
+import 'package:password_manager_client/models/dto_models/password.dart';
 import 'package:password_manager_client/widgets/home_widgets/home_container.dart';
 import 'package:password_manager_client/widgets/shared/animations/animated_hive_background.dart';
 
@@ -16,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
+            BlocProvider.of<EditVaultValueBloc>(context).eventSink.add(SetVaultValue(Password()));
             Navigator.pushNamed(context, '/createVaultValue');
           },
           child: Icon(Icons.add),

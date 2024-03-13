@@ -7,17 +7,17 @@ part of 'password.dart';
 // **************************************************************************
 
 Password _$PasswordFromJson(Map<String, dynamic> json) => Password(
-      id: json['id'] as int?,
+      id: json['id'] as String?,
       url: json['url'] as String?,
-      key: json['key'] as String?,
+      password: json['password'] as String?,
       username: json['username'] as String?,
-      title: json['title'] as String?,
+      friendlyName: json['friendlyName'] as String?,
     );
 
 Map<String, dynamic> _$PasswordToJson(Password instance) => <String, dynamic>{
       'id': instance.id,
       'url': instance.url,
-      'key': instance.key,
+      'password': instance.password,
       'username': instance.username,
-      'title': instance.title,
+      'friendlyName': instance.friendlyName,
     };

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:logger/logger.dart';
-import 'package:password_manager_client/services/backend_services/user_services/user_login_service.dart';
+import 'package:password_manager_client/services/backend_services/user_api_services/user_api_service.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

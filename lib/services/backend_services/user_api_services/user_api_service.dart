@@ -1,6 +1,6 @@
 import 'package:logger/logger.dart';
 
-class UserLoginService {
+class UserApiService {
   final Logger _logger = Logger();
 
   void logUserLoginEvent() {
