@@ -8,15 +8,20 @@ part 'password.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Password implements IVaultValue{
   @override
-  int? id;
+  String? id;
   @override
+  @JsonKey(includeToJson: false, includeFromJson: false)
   String? title, subTitle;
   @override
-  VaultValueType? type = VaultValueType.password;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  VaultValueType type = VaultValueType.password;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  bool hidePasswordInput = true;
 
-  late String? url, key, username;
+  late String? url, password, username, friendlyName;
 
-  Password({this.id, this.url, this.key, this.username, this.title}){
+  Password({this.id, this.url, this.password, this.username, this.friendlyName}){
+    title = friendlyName;
     subTitle = url;
   }
 

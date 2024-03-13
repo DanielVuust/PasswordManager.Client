@@ -1,26 +1,25 @@
 part of 'vault_bloc.dart';
 
 abstract class VaultEvent {
-  var log = Logger();
+  var logger = Logger();
   execute(VaultState state);
 }
 
-class GetVaultValues implements VaultEvent {
+class GetVaultValues extends VaultEvent {
   @override
-  Logger log = Logger();
+  execute(VaultState state) async {
 
-  @override
-  execute(VaultState state) {
-    //TODO get value from backend.
+    var passwordsFuture = PasswordServiceManager().getPasswords();
+    var passwords = await passwordsFuture;
+
+    state.vaultValue = passwords;
+
     state.vaultValue.sort((a, b) => a.id!.compareTo(b.id!));
-
     return state;
   }
 }
 
-class SaveVaultPasswordValues implements VaultEvent {
-  @override
-  Logger log = Logger();
+class SaveVaultPasswordValues extends VaultEvent {
 
   SaveVaultPasswordValues(this.newPasswordValues);
   final Password newPasswordValues;
@@ -32,6 +31,21 @@ class SaveVaultPasswordValues implements VaultEvent {
     state.vaultValue.removeWhere((i) => i.id == newPasswordValues.id);
     state.vaultValue.add(newPasswordValues);
     state.vaultValue.sort((a, b) => a.id!.compareTo(b.id!));
+    return state;
+  }
+}
+
+class CreateVaultValueType extends VaultEvent {
+  CreateVaultValueType(this.vaultValue);
+  final IVaultValue vaultValue;
+
+  @override
+  execute(VaultState state) async {
+    if (vaultValue.type == VaultValueType.password) {
+      
+      PasswordServiceManager().createPassword(vaultValue as Password);
+    }
+
     return state;
   }
 }

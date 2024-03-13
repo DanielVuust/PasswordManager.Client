@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:password_manager_client/routes.dart';
@@ -8,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'models/blocs/auth_bloc/bloc/auth_bloc.dart';
-import 'models/blocs/create_vault_value_bloc/bloc/create_vault_value_bloc.dart';
+import 'models/blocs/create_vault_value_bloc/bloc/edit_vault_value_bloc.dart';
 import 'models/blocs/vault_bloc/bloc/vault_bloc.dart';
 
 Future<void> main() async {
@@ -20,6 +22,10 @@ Future<void> main() async {
   FirebaseUIAuth.configureProviders([
     EmailAuthProvider(),
   ]);
+
+  //Overrides handshake security on http protocol.
+  HttpOverrides.global = MyHttpOverrides();
+
   runApp(const Main());
 }
 
@@ -44,9 +50,9 @@ class _MainState extends State<Main> {
           lazy: false,
         ),
         BlocProvider(
-          create: (context) => CreateVaultValueBloc(),
+          create: (context) => EditVaultValueBloc(),
           lazy: true,
-        )
+        ),
       ],
       child: Material(
         type: MaterialType.transparency,
@@ -60,5 +66,15 @@ class _MainState extends State<Main> {
         ),
       ),
     );
+  }
+}
+
+//Overrides handshake security on http protocol.
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
