@@ -50,9 +50,9 @@ class SetVaultValue extends EditVaultValueEvent {
   }
   
 }
-class GenratePassword extends EditVaultValueEvent {
+class GeneratePassword extends EditVaultValueEvent {
 
-  GenratePassword(this.length);
+  GeneratePassword(this.length);
   final double length;
 
   @override

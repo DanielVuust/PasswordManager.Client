@@ -119,7 +119,7 @@ class _EditPasswordVaultValueInputContainerState extends State<EditPasswordVault
                       
                       BlocProvider.of<EditVaultValueBloc>(context)
                         .eventSink
-                        .add(GenratePassword(widget.generatePasswordLength));
+                        .add(GeneratePassword(widget.generatePasswordLength));
                      },
                     ),
               ),
