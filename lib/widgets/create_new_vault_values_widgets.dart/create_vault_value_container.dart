@@ -5,6 +5,7 @@ import 'package:password_manager_client/models/enums/vault_value_type.dart';
 import 'package:password_manager_client/widgets/create_new_vault_values_widgets.dart/password/edit_password_vault_value_input_container.dart';
 import 'package:password_manager_client/widgets/create_new_vault_values_widgets.dart/select_vault_value_type_section.dart';
 import 'package:password_manager_client/widgets/shared/cards/themed_card.dart';
+import 'package:password_manager_client/widgets/shared/vault_types_widgets/edit_password_vault_value_input_container.dart';
 
 import '../../models/blocs/create_vault_value_bloc/bloc/edit_vault_value_bloc.dart';
 import '../shared/progress_indicators/circular_generic_progress_indicator.dart';

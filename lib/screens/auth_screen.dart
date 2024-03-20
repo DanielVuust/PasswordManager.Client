@@ -13,14 +13,15 @@ class AuthScreen extends StatelessWidget {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user == null) {
         print('User is currently signed out!');
-        Navigator.pushNamed(context, '/sign-in');
+        Navigator.of(context).pushNamedAndRemoveUntil('/sign-in', (route) => route.isFirst);
+        // Navigator.pushNamed(context, '/sign-in');
       } else {
         print('User is signed in!');
 
         BlocProvider.of<AuthBloc>(context)
             .eventSink
             .add(LoginEvent(Platform.localeName, user));
-        Navigator.popAndPushNamed(context, '/home');
+        Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => route.isFirst);
       }
     });
     return Container();
