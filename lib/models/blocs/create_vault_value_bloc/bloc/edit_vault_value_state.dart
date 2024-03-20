@@ -5,6 +5,7 @@ sealed class EditVaultValueState {
   late IVaultValue vaultValue = Password();
   late bool isSaveDone = false;
   late double generatePasswordLength = 64;
+  late bool error = false;
 }
 
 final class EditVaultValueInitial extends EditVaultValueState {}

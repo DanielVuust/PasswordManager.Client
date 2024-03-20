@@ -7,8 +7,7 @@ abstract class AuthEvent {
 }
 
 class LoginEvent extends AuthEvent {
-  LoginEvent(this.language, this.user);
-  final String language;
+  LoginEvent(this.user);
   final User user;
   @override
   execute(AuthState state) async {

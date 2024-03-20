@@ -1,11 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:logger/src/logger.dart';
-import 'package:password_manager_client/models/enums/vault_value_type.dart';
 import 'package:password_manager_client/models/interfaces/i_vault_value.dart';
 import 'dart:async';
 
 import '../../../../services/service_managers/password_service/password_service_manager.dart';
-import '../../../dto_models/password.dart';
 
 part 'vault_event.dart';
 part 'vault_state.dart';

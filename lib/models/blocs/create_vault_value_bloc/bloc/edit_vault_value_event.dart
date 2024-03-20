@@ -22,15 +22,25 @@ class SaveVaultValue extends EditVaultValueEvent {
 
   SaveVaultValue(this.vaultValue);
   final IVaultValue vaultValue;
+
+  PasswordServiceManager passwordServiceManager = PasswordServiceManager();
   @override
-  execute(EditVaultValueState state) {
-    if (state.valueType == VaultValueType.password) {
-      if(state.vaultValue.id != null){
-        PasswordServiceManager().updatePassword(vaultValue as Password);
+  execute(EditVaultValueState state) async {
+    try{
+
+    if (vaultValue.type == VaultValueType.password) {
+      if(vaultValue.id != null){
+        await passwordServiceManager.updatePassword(vaultValue as Password);
       }
       else{
-        PasswordServiceManager().createPassword(vaultValue as Password);
+        await passwordServiceManager.createPassword(vaultValue as Password);
       } 
+    }
+    }
+    on ApiException catch (e) {
+      state.error = true;
+      logger.e(e);
+      return state;
     }
 
     state.isSaveDone = true;
@@ -50,14 +60,26 @@ class SetVaultValue extends EditVaultValueEvent {
   }
   
 }
-class GenratePassword extends EditVaultValueEvent {
+class GeneratePassword extends EditVaultValueEvent {
 
-  GenratePassword(this.length);
+  GeneratePassword(this.length);
   final double length;
+  PasswordServiceManager passwordServiceManager = PasswordServiceManager();
 
   @override
   execute(EditVaultValueState state) async {
-    (state.vaultValue as Password).password = await PasswordServiceManager().generatePassword(length);
+    if(state.vaultValue.type != VaultValueType.password){
+      throw Exception("Invalid VaultValueType to generate password.");
+    }
+    try{
+      (state.vaultValue as Password).password = await passwordServiceManager.generatePassword(length);
+
+    } 
+    on ApiException catch (e) {
+      state.error = true;
+      logger.e(e);
+      return state;
+    }
 
     return state;
   }

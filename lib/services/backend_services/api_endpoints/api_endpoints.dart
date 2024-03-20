@@ -14,7 +14,6 @@ class ApiEndpoints{
 
   Uri generatePassword(Map<String, dynamic> queryparameters ){
     String queryString = Uri(queryParameters: queryparameters).query;
-    print(Uri.parse(_baseUrl + "generate/password?" + queryString));
     return Uri.parse(_baseUrl + "generate/password?" + queryString);
 
   }

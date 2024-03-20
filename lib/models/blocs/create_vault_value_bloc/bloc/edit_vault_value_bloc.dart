@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:logger/logger.dart';
 import 'package:password_manager_client/models/dto_models/password.dart';
 import 'package:password_manager_client/models/interfaces/i_vault_value.dart';
+import 'package:password_manager_client/services/backend_services/api_utilities/api_exception.dart';
 import 'package:password_manager_client/services/service_managers/password_service/password_service_manager.dart';
 
 import '../../../enums/vault_value_type.dart';

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,13 +12,12 @@ class AuthScreen extends StatelessWidget {
       if (user == null) {
         print('User is currently signed out!');
         Navigator.of(context).pushNamedAndRemoveUntil('/sign-in', (route) => route.isFirst);
-        // Navigator.pushNamed(context, '/sign-in');
       } else {
         print('User is signed in!');
 
         BlocProvider.of<AuthBloc>(context)
             .eventSink
-            .add(LoginEvent(Platform.localeName, user));
+            .add(LoginEvent(user));
         Navigator.of(context).pushNamedAndRemoveUntil('/home', (route) => route.isFirst);
       }
     });

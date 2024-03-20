@@ -1,0 +1,71 @@
+import 'package:mocktail/mocktail.dart';
+import 'package:password_manager_client/models/dto_models/password.dart';
+import 'package:password_manager_client/services/backend_services/password_api_service/password_api_service.dart';
+import 'package:password_manager_client/services/service_managers/password_service/password_service_manager.dart';
+import 'package:test/test.dart';
+class McokPasswordApiService extends Mock implements PasswordApiService {}
+void main(){ 
+  PasswordServiceManager serviceManager = PasswordServiceManager();
+  test("getPasswrods successfull", () async {
+
+    List<Password> passwords = [Password(id: "1", friendlyName: "name", password: "password", url: "url", username: "username"), Password(id: "2", friendlyName: "name2", password: "password2", url: "url2", username: "username2"), Password(id: "3", friendlyName: "name3", password: "password3", url: "url3", username: "username3")];
+    McokPasswordApiService service = McokPasswordApiService();
+    when(() => service.getPasswords()).thenAnswer((_) async => passwords);
+    serviceManager.passwordApiService = service;
+
+    List<Password> result = await serviceManager.getPasswords();
+
+    expect(result, passwords);
+  });
+  test("createPassword successfull", () async {
+
+    Password password = Password(friendlyName: "name", password: "password", url: "url", username: "username");
+    McokPasswordApiService service = McokPasswordApiService();
+    when(() => service.createPassword(password)).thenAnswer((_) async => true);
+    serviceManager.passwordApiService = service;
+
+    bool result = await serviceManager.createPassword(password);
+
+    expect(result, true);
+  });
+  test("generatePassword successfull", () async {
+
+    McokPasswordApiService service = McokPasswordApiService();
+    when(() => service.generatePassword(10)).thenAnswer((_) async => "password10");
+    serviceManager.passwordApiService = service;
+
+    String result = await serviceManager.generatePassword(10);
+
+    expect(result, "password10");
+  });
+  test("generatePassword thwors exception on illegal length", () async {
+    expect(() => serviceManager.generatePassword(8), throwsA(isA<Exception>()));
+    expect(() => serviceManager.generatePassword(129), throwsA(isA<Exception>()));
+    expect(() => serviceManager.generatePassword(-1), throwsA(isA<Exception>()));
+  });
+  test("updatePassword successfull", () async {
+
+    Password password = Password(id: "1", friendlyName: "name", password: "password", url: "url", username: "username");
+    McokPasswordApiService service = McokPasswordApiService();
+    when(() => service.updatePassword(password)).thenAnswer((_) async => true);
+    serviceManager.passwordApiService = service;
+
+    bool result = await serviceManager.updatePassword(password);
+
+    expect(result, true);
+  });
+  test("updatePassword throws exception on validation error", () async {
+
+    Password passwordWithoutId = Password(friendlyName: "name", password: "password", url: "url", username: "username");
+    Password passwordWithoutFriendlyName = Password(id: "1", password: "password", url: "url", username: "username");
+    Password passwordWithoutPassword = Password(id: "1", friendlyName: "name", url: "url", username: "username");
+    Password passwordWithoutUrl = Password(id: "1", friendlyName: "name", password: "password", username: "username");
+    Password passwordWithoutUsername = Password(id: "1", friendlyName: "name", password: "password", url: "url",);
+
+    expect(() => serviceManager.updatePassword(passwordWithoutId), throwsA(isA<Exception>()));
+    expect(() => serviceManager.updatePassword(passwordWithoutFriendlyName), throwsA(isA<Exception>()));
+    expect(() => serviceManager.updatePassword(passwordWithoutPassword), throwsA(isA<Exception>()));
+    expect(() => serviceManager.updatePassword(passwordWithoutUrl), throwsA(isA<Exception>()));
+    expect(() => serviceManager.updatePassword(passwordWithoutUsername), throwsA(isA<Exception>()));
+  });
+}
