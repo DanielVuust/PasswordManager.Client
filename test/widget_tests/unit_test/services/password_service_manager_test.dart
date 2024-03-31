@@ -1,5 +1,6 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:password_manager_client/models/dto_models/password.dart';
+import 'package:password_manager_client/services/backend_services/api_utilities/api_exception.dart';
 import 'package:password_manager_client/services/backend_services/password_api_service/password_api_service.dart';
 import 'package:password_manager_client/services/service_managers/password_service/password_service_manager.dart';
 import 'package:test/test.dart';
@@ -17,6 +18,14 @@ void main(){
 
     expect(result, passwords);
   });
+  test("getPasswrods rethows apiException", () async {
+
+    McokPasswordApiService service = McokPasswordApiService();
+    when(() => service.getPasswords()).thenThrow(ApiException(400, "From unittest getPasswrods"));
+    serviceManager.passwordApiService = service;
+
+    expect(() => serviceManager.getPasswords(), throwsA(isA<ApiException>()));
+  });
   test("createPassword successfull", () async {
 
     Password password = Password(friendlyName: "name", password: "password", url: "url", username: "username");
@@ -28,6 +37,29 @@ void main(){
 
     expect(result, true);
   });
+  test("createPassword rethows apiException", () async {
+
+    Password password = Password(friendlyName: "name", password: "password", url: "url", username: "username");
+    McokPasswordApiService service = McokPasswordApiService();
+    when(() => service.createPassword(password)).thenThrow(ApiException(400, "From unittest createPassword"));
+    serviceManager.passwordApiService = service;
+
+    expect(() => serviceManager.createPassword(password), throwsA(isA<ApiException>()));
+  });
+  test("createPassword throws exception on validation error", () async {
+
+    Password passwordWithId = Password(id: "1", friendlyName: "name", password: "password", url: "url", username: "username");
+    Password passwordWithoutFriendlyName = Password(password: "password", url: "url", username: "username");
+    Password passwordWithoutPassword = Password(friendlyName: "name", url: "url", username: "username");
+    Password passwordWithoutUrl = Password(friendlyName: "name", password: "password", username: "username");
+    Password passwordWithoutUsername = Password(friendlyName: "name", password: "password", url: "url",);
+
+    expect(() => serviceManager.createPassword(passwordWithId), throwsA(isA<Exception>()));
+    expect(() => serviceManager.createPassword(passwordWithoutFriendlyName), throwsA(isA<Exception>()));
+    expect(() => serviceManager.createPassword(passwordWithoutPassword), throwsA(isA<Exception>()));
+    expect(() => serviceManager.createPassword(passwordWithoutUrl), throwsA(isA<Exception>()));
+    expect(() => serviceManager.createPassword(passwordWithoutUsername), throwsA(isA<Exception>()));
+  });
   test("generatePassword successfull", () async {
 
     McokPasswordApiService service = McokPasswordApiService();
@@ -37,6 +69,14 @@ void main(){
     String result = await serviceManager.generatePassword(10);
 
     expect(result, "password10");
+  });
+  test("generatePassword rethows apiException", () async {
+
+    McokPasswordApiService service = McokPasswordApiService();
+    when(() => service.generatePassword(10)).thenThrow(ApiException(400, "From unittest generatePassword"));
+    serviceManager.passwordApiService = service;
+
+    expect(() => serviceManager.generatePassword(10), throwsA(isA<ApiException>()));
   });
   test("generatePassword thwors exception on illegal length", () async {
     expect(() => serviceManager.generatePassword(8), throwsA(isA<Exception>()));
@@ -53,6 +93,15 @@ void main(){
     bool result = await serviceManager.updatePassword(password);
 
     expect(result, true);
+  });
+  test("updatePassword rethows apiException", () async {
+    Password password = Password(id: "1", friendlyName: "name", password: "password", url: "url", username: "username");
+
+    McokPasswordApiService service = McokPasswordApiService();
+    when(() => service.updatePassword(password)).thenThrow(ApiException(400, "From unittest updatePassword"));
+    serviceManager.passwordApiService = service;
+
+    expect(() => serviceManager.updatePassword(password), throwsA(isA<ApiException>()));
   });
   test("updatePassword throws exception on validation error", () async {
 

@@ -21,7 +21,7 @@ class _HomeVaultValueStoresState extends State<HomeVaultValueStores> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const CircularGenericProgessIndicator();
         } else if (!snapshot.hasData) {
-          return const CircularGenericProgessIndicator();
+          return const Placeholder();
         } else {
           var list = List<HomeVaultValueCard>.generate(
             snapshot.data!.vaultValue.length,

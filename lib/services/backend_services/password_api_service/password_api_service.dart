@@ -9,8 +9,6 @@ import '../../../models/dto_models/password.dart';
 class PasswordApiService extends BaseApiService{
 
   Future<List<Password>> getPasswords() async {
-    
-
     Uri endpoint = apiEndpoints.passwordsUri();
 
     var response = await httpExecutor.get(endpoint);
@@ -26,14 +24,15 @@ class PasswordApiService extends BaseApiService{
   }
   Future<bool> createPassword(Password password) async {
     Uri endpoint = apiEndpoints.passwordsUri();
-    //todo change createdByUser.
-    Object body = {"details": password.toJson(), "createdByUserId": "1"};
-    var response = await httpExecutor.post(endpoint, body: body as Map<String, dynamic>);
 
+    Object body = {"details": password.toJson()};
+    var response = await httpExecutor.post(endpoint, body: body as Map<String, dynamic>);
+    
     if(!response.isOk){
       logger.d("Api call create password failed with status code ${response.statusCode} and body ${response.body}");
       throw ApiException(response.statusCode, response.body);
     }
+
 
     return true;
   }

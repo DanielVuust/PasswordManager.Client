@@ -52,6 +52,7 @@ class PasswordServiceManager {
       rethrow;
     }
   }
+  
   Future<String> generatePassword(double length) async {
     logger.d("Caling PasswordServiceManager.generatePassword");
 

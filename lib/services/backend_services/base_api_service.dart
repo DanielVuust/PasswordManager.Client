@@ -4,7 +4,7 @@ import 'package:password_manager_client/services/backend_services/api_endpoints/
 import '../http_executor/http_executor.dart';
 
 abstract class BaseApiService{
-  final Logger logger = Logger();
-  final ApiEndpoints apiEndpoints = ApiEndpoints();
-  final HttpExecutor httpExecutor = HttpExecutor();
+  Logger logger = Logger();
+  ApiEndpoints apiEndpoints = ApiEndpoints();
+  HttpExecutor httpExecutor = HttpExecutor();
 }

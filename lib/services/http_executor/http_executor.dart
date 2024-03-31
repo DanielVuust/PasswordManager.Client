@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
@@ -11,7 +12,8 @@ class HttpExecutor {
   }) async {
     log.t("Calling get with uri $uri");
     headers ??= <String, String>{};
-
+    headers["Authorization"] = "Bearer ${await currentUserApiString()}";
+http.Response response = await http.get(uri, headers: headers);
     return await http.get(uri, headers: headers);
   }
 
@@ -22,7 +24,8 @@ class HttpExecutor {
     headers ??= <String, String>{};
 
     headers["Content-Type"] = "application/json";
-    headers["created-by-user-id"] = "1";
+    headers["Authorization"] = "Bearer ${await currentUserApiString()}";
+    headers["created-by-user-id "] = "1";
 
 
     return await http.post(uri, body: json.encode(body), headers: headers);
@@ -35,7 +38,9 @@ class HttpExecutor {
     headers ??= <String, String>{};
 
     headers["Content-Type"] = "application/json";
-    headers["created-by-user-id"] = "1";
+    headers["Authorization"] = "Bearer ${await currentUserApiString()}";
+    headers["created-by-user-id "] = "1";
+
 
 
     return await http.delete(uri, body: json.encode(body), headers: headers);
@@ -48,10 +53,18 @@ class HttpExecutor {
     headers ??= <String, String>{};
 
     headers["Content-Type"] = "application/json";
-    headers["created-by-user-id"] = "1";
+    headers["Authorization"] = "Bearer ${await currentUserApiString()}";
+    headers["created-by-user-id "] = "1";
+
 
 
     return await http.put(uri, body: json.encode(body), headers: headers);
+  }
+
+  Future<String?> currentUserApiString() async {
+    var idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
+    log.d("IdToken: $idToken");
+    return idToken;
   }
 
 }

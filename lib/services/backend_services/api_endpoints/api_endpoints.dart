@@ -6,10 +6,10 @@ class ApiEndpoints{
   static const String _baseUrl = "https://10.0.2.2:62598/api/";
 
   Uri passwordsUri(){
-    return Uri.parse(_baseUrl + "passwords");
+    return Uri.parse(_baseUrl + "user/passwords");
   }
   Uri passwordsUriWithId(String passwordId){
-    return Uri.parse(_baseUrl + "passwords/" + passwordId);
+    return Uri.parse(_baseUrl + "user/passwords/" + passwordId);
   }
 
   Uri generatePassword(Map<String, dynamic> queryparameters ){
