@@ -8,7 +8,7 @@ void main() {
   test('Log login bloc event', () async {
 
     User user = await MockFirebaseAuth().createUserWithEmailAndPassword(
-      email: "tadas@gmail.com", password: "123456").then((value) => value.user!);
+      email: "unittest@gmail.com", password: "123456").then((value) => value.user!);
     LoginEvent loginEvent = LoginEvent(user);
     AuthState state = AuthInitial();
     loginEvent.execute(state);

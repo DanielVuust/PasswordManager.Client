@@ -25,7 +25,7 @@ class PasswordApiService extends BaseApiService{
   Future<bool> createPassword(Password password) async {
     Uri endpoint = apiEndpoints.passwordsUri();
 
-    Object body = {"details": password.toJson()};
+    Object body =  password.toJson();
     var response = await httpExecutor.post(endpoint, body: body as Map<String, dynamic>);
     
     if(!response.isOk){

@@ -3,7 +3,7 @@
 class ApiEndpoints{
 
 
-  static const String _baseUrl = "https://10.0.2.2:62598/api/";
+  static const String _baseUrl = "https://10.0.2.2:50477/api/";
 
   Uri passwordsUri(){
     return Uri.parse(_baseUrl + "user/passwords");

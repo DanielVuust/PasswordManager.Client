@@ -12,7 +12,6 @@ class LoginEvent extends AuthEvent {
   @override
   execute(AuthState state) async {
     log.t("Calling LoginEvent");
-    UserApiService().logUserLoginEvent();
     state.user = user;
   }
 }

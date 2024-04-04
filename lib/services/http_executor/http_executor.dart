@@ -1,70 +1,60 @@
 import 'dart:convert';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
+import 'package:password_manager_client/services/http_executor/firebase_token_manager.dart';
 
 class HttpExecutor {
   Logger log = Logger();
+  http.Client httpClient = http.Client();
+  FirebaseTokenManager firebaseTokenManager = FirebaseTokenManager();
+
   Future<http.Response> get(
     Uri uri, {
     Map<String, String>? headers,
   }) async {
     log.t("Calling get with uri $uri");
     headers ??= <String, String>{};
-    headers["Authorization"] = "Bearer ${await currentUserApiString()}";
-http.Response response = await http.get(uri, headers: headers);
-    return await http.get(uri, headers: headers);
+    headers["Authorization"] = "Bearer ${await firebaseTokenManager.getUserToken()}";
+    return await httpClient.get(uri, headers: headers);
   }
 
   Future<http.Response> post(Uri uri,
       {Map<String, String>? headers, Map<String, dynamic>? body}) async {
-    log.v("Calling post with uri $uri and body $body");
+    log.t("Calling post with uri $uri and body $body");
+
+    body ??= <String, dynamic>{};
 
     headers ??= <String, String>{};
 
     headers["Content-Type"] = "application/json";
-    headers["Authorization"] = "Bearer ${await currentUserApiString()}";
-    headers["created-by-user-id "] = "1";
+    headers["Authorization"] = "Bearer ${await firebaseTokenManager.getUserToken()}";
 
-
-    return await http.post(uri, body: json.encode(body), headers: headers);
+    return await httpClient.post(uri, body: json.encode(body), headers: headers);
   }
 
   Future<http.Response> delete(Uri uri,
       {Map<String, String>? headers, Map<String, dynamic>? body}) async {
-    log.v("Calling delete with uri $uri and body $body");
+    log.t("Calling delete with uri $uri and body $body");
 
     headers ??= <String, String>{};
 
     headers["Content-Type"] = "application/json";
-    headers["Authorization"] = "Bearer ${await currentUserApiString()}";
-    headers["created-by-user-id "] = "1";
+    headers["Authorization"] = "Bearer ${await firebaseTokenManager.getUserToken()}";
 
 
-
-    return await http.delete(uri, body: json.encode(body), headers: headers);
+    return await httpClient.delete(uri, body: json.encode(body), headers: headers);
   }
 
   Future<http.Response> put(Uri uri,
       {Map<String, String>? headers, Map<String, dynamic>? body}) async {
-    log.v("Calling delete with uri $uri and body $body");
+    log.t("Calling delete with uri $uri and body $body");
 
     headers ??= <String, String>{};
 
     headers["Content-Type"] = "application/json";
-    headers["Authorization"] = "Bearer ${await currentUserApiString()}";
-    headers["created-by-user-id "] = "1";
+    headers["Authorization"] = "Bearer ${await firebaseTokenManager.getUserToken()}";
 
-
-
-    return await http.put(uri, body: json.encode(body), headers: headers);
+    return await httpClient.put(uri, body: json.encode(body), headers: headers);
   }
-
-  Future<String?> currentUserApiString() async {
-    var idToken = await FirebaseAuth.instance.currentUser!.getIdToken();
-    log.d("IdToken: $idToken");
-    return idToken;
-  }
-
 }

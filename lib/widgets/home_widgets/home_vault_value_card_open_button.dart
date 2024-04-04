@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:password_manager_client/models/blocs/create_vault_value_bloc/bloc/edit_vault_value_bloc.dart';
+import 'package:password_manager_client/models/blocs/vault_bloc/bloc/vault_bloc.dart';
 import 'package:password_manager_client/models/interfaces/i_vault_value.dart';
 
 class HomeVaultValueCardOpenButton extends StatelessWidget {
@@ -12,13 +13,15 @@ class HomeVaultValueCardOpenButton extends StatelessWidget {
     return Container(
       alignment: Alignment.bottomRight,
       child: ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
             BlocProvider.of<EditVaultValueBloc>(context).eventSink.add(SetVaultValue(vaultValue));
-            Navigator.pushNamed(
+            await Navigator.pushNamed(
               context,
               '/vaultValueScreen',
               arguments: vaultValue,
             );
+            await Future.delayed(Duration(seconds: 3));
+            BlocProvider.of<VaultBloc>(context).eventSink.add(GetVaultValues());
           },
           child: const Text(
             "Open",
