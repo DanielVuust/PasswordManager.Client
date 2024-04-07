@@ -20,35 +20,32 @@ class CreateVaultValueContainer extends StatefulWidget {
 class _CreateVaultValueContainerState extends State<CreateVaultValueContainer> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: ThemedCard(
-        child: StreamBuilder<EditVaultValueState>(
-            stream: BlocProvider.of<EditVaultValueBloc>(context)
-                .editVaultValueState,
-            initialData: EditVaultValueInitial(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const CircularGenericProgessIndicator();
-              } else {
-                return SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SelectVaultValueTypeSection(
-                          value: snapshot.data!.valueType),
-                      if (snapshot.data!.valueType == VaultValueType.password)
-                        EditPasswordVaultValueInputContainer(
-                          newPassword: snapshot.data!.vaultValue as Password,
-                          generatePasswordLength:
-                              snapshot.data!.generatePasswordLength,
-                        ),
-                      if (snapshot.data!.valueType == VaultValueType.creditCard) Placeholder(),
-                    ],
-                  ),
-                );
-              }
-            }),
-      ),
+    return ThemedCard(
+      child: StreamBuilder<EditVaultValueState>(
+          stream: BlocProvider.of<EditVaultValueBloc>(context)
+              .editVaultValueState,
+          initialData: EditVaultValueInitial(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const CircularGenericProgessIndicator();
+            } else {
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SelectVaultValueTypeSection(
+                        value: snapshot.data!.valueType),
+                    if (snapshot.data!.valueType == VaultValueType.password)
+                      EditPasswordVaultValueInputContainer(
+                        newPassword: snapshot.data!.vaultValue as Password,
+                        generatePasswordLength:
+                            snapshot.data!.generatePasswordLength,
+                      ),
+                    if (snapshot.data!.valueType == VaultValueType.creditCard) Placeholder(),
+                  ],
+                ),
+              );
+            }
+          }),
     );
   }
 }

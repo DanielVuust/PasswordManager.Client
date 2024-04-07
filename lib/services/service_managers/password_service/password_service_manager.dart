@@ -6,7 +6,7 @@ import '../../backend_services/password_api_service/password_api_service.dart';
 
 class PasswordServiceManager {
   PasswordApiService passwordApiService = PasswordApiService();
-    Logger logger = Logger();
+  Logger logger = Logger();
 
   Future<List<Password>> getPasswords() async {
     logger.d("Caling PasswordServiceManager.getPasswords");
@@ -22,7 +22,7 @@ class PasswordServiceManager {
   Future<bool> createPassword(Password password) async {
     logger.d("Caling PasswordServiceManager.craetePassword");
 
-    if(password.id != null){
+    if(password.passwordId != null){
       logger.e("Id should be null");
       throw Exception("Id should be null");
     }
@@ -74,7 +74,7 @@ class PasswordServiceManager {
   Future<bool> updatePassword(Password password) async {
     logger.d("Caling PasswordServiceManager.updatePassword");
 
-    if(password.id == null){
+    if(password.passwordId == null){
       logger.e("Id should not be null");
       throw Exception("Id should not be null");
     }
@@ -102,6 +102,18 @@ class PasswordServiceManager {
     on ApiException catch (e){
       logger.e("Error in PasswordServiceManager.updatePassword", error: e);
       rethrow;
+    }
+  }
+
+  Future<bool> deletePassword(String passwordId) async {
+    logger.d("Caling PasswordServiceManager.deletePassword");
+    try{
+      return passwordApiService.deletePassword(passwordId);
+
+    }
+    on ApiException catch (e){
+      logger.e("Error in PasswordServiceManager.updatePassword", error: e);
+      return false;
     }
   }
 }

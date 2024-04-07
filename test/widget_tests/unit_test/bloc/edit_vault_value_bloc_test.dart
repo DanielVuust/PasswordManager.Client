@@ -46,7 +46,7 @@ void main() {
     expect(state.error, false);
   });
   test('SaveVaultValue bloc event on Password update', () async {
-    Password password = Password(friendlyName: "name", password: "password", url: "url", username: "username", id: "1");
+    Password password = Password(friendlyName: "name", password: "password", url: "url", username: "username", passwordId: "1");
   
     McokPasswordServiceManager serviceManager = McokPasswordServiceManager();
     when(() => serviceManager.updatePassword(password)).thenAnswer((_) async => true);
@@ -62,7 +62,7 @@ void main() {
   });
 
   test('SaveVaultValue bloc event on Password update throw ApiException', () async {
-    Password password = Password(friendlyName: "name", password: "password", url: "url", username: "username", id: "1");
+    Password password = Password(friendlyName: "name", password: "password", url: "url", username: "username", passwordId: "1");
   
     McokPasswordServiceManager serviceManager = McokPasswordServiceManager();
     when(() => serviceManager.updatePassword(password)).thenThrow(ApiException(400, "Exception thrown from test"));
@@ -77,7 +77,7 @@ void main() {
   });
 
   test('SetVaultValue bloc event', () async {
-    Password password = Password(friendlyName: "name", password: "password", url: "url", username: "username", id: "1");
+    Password password = Password(friendlyName: "name", password: "password", url: "url", username: "username", passwordId: "1");
   
     SetVaultValue event = SetVaultValue(password);
     EditVaultValueState state = EditVaultValueInitial();
@@ -88,7 +88,8 @@ void main() {
   });
 
   test('GeneratePassword bloc event', () async {
-    GeneratePassword event = GeneratePassword(10);
+    Password password = Password(friendlyName: "name", password: "password", url: "url", username: "username", passwordId: "1");
+    GeneratePassword event = GeneratePassword(password, 10);
     EditVaultValueState state = EditVaultValueInitial();
     McokPasswordServiceManager serviceManager = McokPasswordServiceManager();
     when(() => serviceManager.generatePassword(10)).thenAnswer((_) async => "password");
@@ -101,7 +102,8 @@ void main() {
   });
 
   test('GeneratePassword bloc event on ApiException', () async {
-    GeneratePassword event = GeneratePassword(10);
+    Password password = Password(friendlyName: "name", password: "password", url: "url", username: "username", passwordId: "1");
+    GeneratePassword event = GeneratePassword(password, 10);
     EditVaultValueState state = EditVaultValueInitial();
     McokPasswordServiceManager serviceManager = McokPasswordServiceManager();
     when(() => serviceManager.generatePassword(10)).thenThrow(ApiException(400, "Exception thrown from test"));
@@ -113,7 +115,8 @@ void main() {
   });
 
   test('GeneratePassword bloc event on not allowed type', () async {
-    GeneratePassword event = GeneratePassword(10);
+    Password password = Password(friendlyName: "name", password: "password", url: "url", username: "username", passwordId: "1");
+    GeneratePassword event = GeneratePassword(password, 10);
     EditVaultValueState state = EditVaultValueInitial();
     state.vaultValue.type = VaultValueType.creditCard;
 

@@ -1,11 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:password_manager_client/services/http_executor/firebase_token_manager.dart';
 import 'package:password_manager_client/services/http_executor/http_executor.dart';
 
 
-class HttpMockClient extends Mock implements http.Client{}
+class HttpMockClient extends Mock implements Client{}
 class MockFirebaseTokenManager extends Mock implements FirebaseTokenManager{}
 class FakeUri extends Fake implements Uri {}
 
@@ -13,6 +14,7 @@ void main(){
   setUpAll(() {
     registerFallbackValue(FakeUri());
   });
+  
   test("HttpExecetor.get successfull without specific headers", () async {
     http.Response response = http.Response("[]", 200);
     MockFirebaseTokenManager firebaseTokenManager = MockFirebaseTokenManager();
@@ -21,7 +23,7 @@ void main(){
     headers["Authorization"] = "Bearer token";
     
     HttpMockClient httpMockClient = HttpMockClient();
-    when(() => httpMockClient.get(Uri.parse("http://localhost:8080/passwords"), headers: headers)).thenAnswer((_) async => response);
+    when(() => httpMockClient.get(Uri.parse("http://localhost:8080/passwords"), headers: headers)).thenAnswer((_) async => Response("[]", 200));
     
     HttpExecutor httpExecutor = HttpExecutor();
     httpExecutor.httpClient = httpMockClient;
@@ -62,7 +64,7 @@ void main(){
     headers["Content-Type"] = "application/json";
     
     HttpMockClient httpMockClient = HttpMockClient();
-    when(() => httpMockClient.post(Uri.parse("http://localhost:8080/passwords"), headers: headers, )).thenAnswer((_) async => response);
+    when(() => httpMockClient.post(Uri.parse("http://localhost:8080/passwords"), body: any(named: "body"), headers: headers, )).thenAnswer((_) async => response);
     
     HttpExecutor httpExecutor = HttpExecutor();
     httpExecutor.httpClient = httpMockClient;
@@ -83,7 +85,7 @@ void main(){
     var headers = specificHeaders;
     headers["Authorization"] = "Bearer token";
     HttpMockClient httpMockClient = HttpMockClient();
-    when(() => httpMockClient.post(Uri.parse("http://localhost:8080/passwords"), headers: headers)).thenAnswer((_) async => response);
+    when(() => httpMockClient.post(Uri.parse("http://localhost:8080/passwords"), body: any(named: "body"), headers: headers)).thenAnswer((_) async => response);
     
     HttpExecutor httpExecutor = HttpExecutor();
     httpExecutor.httpClient = httpMockClient;
@@ -105,7 +107,7 @@ void main(){
     var headers = specificHeaders;
     headers["Authorization"] = "Bearer token";
     HttpMockClient httpMockClient = HttpMockClient();
-    when(() => httpMockClient.put(Uri.parse("http://localhost:8080/passwords"), headers: headers)).thenAnswer((_) async => response);
+    when(() => httpMockClient.put(Uri.parse("http://localhost:8080/passwords"), body: any(named: "body"), headers: headers)).thenAnswer((_) async => response);
     
     HttpExecutor httpExecutor = HttpExecutor();
     httpExecutor.httpClient = httpMockClient;
@@ -125,7 +127,7 @@ void main(){
     headers["Content-Type"] = "application/json";
     
     HttpMockClient httpMockClient = HttpMockClient();
-    when(() => httpMockClient.put(Uri.parse("http://localhost:8080/passwords"), headers: headers, )).thenAnswer((_) async => response);
+    when(() => httpMockClient.put(Uri.parse("http://localhost:8080/passwords"), body: any(named: "body"), headers: headers, )).thenAnswer((_) async => response);
     
     HttpExecutor httpExecutor = HttpExecutor();
     httpExecutor.httpClient = httpMockClient;
@@ -146,7 +148,7 @@ void main(){
     var headers = specificHeaders;
     headers["Authorization"] = "Bearer token";
     HttpMockClient httpMockClient = HttpMockClient();
-    when(() => httpMockClient.delete(Uri.parse("http://localhost:8080/passwords"), headers: headers)).thenAnswer((_) async => response);
+    when(() => httpMockClient.delete(Uri.parse("http://localhost:8080/passwords"), body: any(named: "body"), headers: headers)).thenAnswer((_) async => response);
     
     HttpExecutor httpExecutor = HttpExecutor();
     httpExecutor.httpClient = httpMockClient;
@@ -166,7 +168,7 @@ void main(){
     headers["Content-Type"] = "application/json";
     
     HttpMockClient httpMockClient = HttpMockClient();
-    when(() => httpMockClient.delete(Uri.parse("http://localhost:8080/passwords"), headers: headers, body: any())).thenAnswer((_) async => response);
+    when(() => httpMockClient.delete(Uri.parse("http://localhost:8080/passwords"), body: any(named: "body"), headers: headers)).thenAnswer((_) async => response);
     
     HttpExecutor httpExecutor = HttpExecutor();
     httpExecutor.httpClient = httpMockClient;

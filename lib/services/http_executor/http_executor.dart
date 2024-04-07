@@ -37,6 +37,8 @@ class HttpExecutor {
       {Map<String, String>? headers, Map<String, dynamic>? body}) async {
     log.t("Calling delete with uri $uri and body $body");
 
+    body ??= <String, dynamic>{};
+
     headers ??= <String, String>{};
 
     headers["Content-Type"] = "application/json";
@@ -48,7 +50,9 @@ class HttpExecutor {
 
   Future<http.Response> put(Uri uri,
       {Map<String, String>? headers, Map<String, dynamic>? body}) async {
-    log.t("Calling delete with uri $uri and body $body");
+    log.t("Calling put with uri $uri and body $body");
+    
+    body ??= <String, dynamic>{};
 
     headers ??= <String, String>{};
 

@@ -9,11 +9,9 @@ part of 'user.dart';
 User _$UserFromJson(Map<String, dynamic> json) => User(
       json['id'] as int?,
       json['firebaseUid'] as String?,
-      json['iconUrl'] as String?,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
       'firebaseUid': instance.firebaseUid,
-      'iconUrl': instance.iconUrl,
     };

@@ -5,6 +5,5 @@ class IVaultValue {
   String? title;
   //SubTitle is used to display the description of the value in the UI
   String? subTitle;
-  String? id;
   late VaultValueType type;
 }

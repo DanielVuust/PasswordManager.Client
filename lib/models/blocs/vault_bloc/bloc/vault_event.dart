@@ -17,7 +17,29 @@ class GetVaultValues extends VaultEvent {
 
     state.vaultValue = passwords;
 
-    state.vaultValue.sort((a, b) => a.id!.compareTo(b.id!));
+    return state;
+  }
+}
+
+class DeleteVaultValue extends VaultEvent{
+  final IVaultValue _vaultValue;
+  DeleteVaultValue(this._vaultValue);
+
+  PasswordServiceManager passwordServiceManager = PasswordServiceManager();
+
+  @override
+  execute(VaultState state) async {
+    if(_vaultValue.type == VaultValueType.password){
+      var result = await passwordServiceManager.deletePassword((_vaultValue as Password).passwordId!);
+      if(result == true){
+        state.vaultValue = state.vaultValue.where((element) => (element as Password).passwordId != (_vaultValue as Password).passwordId).toList();
+      }
+      else{
+        state.error = true;
+      }
+
+    }
+
     return state;
   }
 }

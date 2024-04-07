@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:logger/src/logger.dart';
+import 'package:password_manager_client/models/dto_models/password.dart';
+import 'package:password_manager_client/models/enums/vault_value_type.dart';
 import 'package:password_manager_client/models/interfaces/i_vault_value.dart';
 import 'dart:async';
 

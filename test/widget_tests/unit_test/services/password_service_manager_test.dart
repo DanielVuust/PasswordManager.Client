@@ -9,7 +9,7 @@ void main(){
   PasswordServiceManager serviceManager = PasswordServiceManager();
   test("getPasswrods successfull", () async {
 
-    List<Password> passwords = [Password(id: "1", friendlyName: "name", password: "password", url: "url", username: "username"), Password(id: "2", friendlyName: "name2", password: "password2", url: "url2", username: "username2"), Password(id: "3", friendlyName: "name3", password: "password3", url: "url3", username: "username3")];
+    List<Password> passwords = [Password(passwordId: "1", friendlyName: "name", password: "password", url: "url", username: "username"), Password(passwordId: "2", friendlyName: "name2", password: "password2", url: "url2", username: "username2"), Password(passwordId: "3", friendlyName: "name3", password: "password3", url: "url3", username: "username3")];
     McokPasswordApiService service = McokPasswordApiService();
     when(() => service.getPasswords()).thenAnswer((_) async => passwords);
     serviceManager.passwordApiService = service;
@@ -48,7 +48,7 @@ void main(){
   });
   test("createPassword throws exception on validation error", () async {
 
-    Password passwordWithId = Password(id: "1", friendlyName: "name", password: "password", url: "url", username: "username");
+    Password passwordWithId = Password(passwordId: "1", friendlyName: "name", password: "password", url: "url", username: "username");
     Password passwordWithoutFriendlyName = Password(password: "password", url: "url", username: "username");
     Password passwordWithoutPassword = Password(friendlyName: "name", url: "url", username: "username");
     Password passwordWithoutUrl = Password(friendlyName: "name", password: "password", username: "username");
@@ -85,7 +85,7 @@ void main(){
   });
   test("updatePassword successfull", () async {
 
-    Password password = Password(id: "1", friendlyName: "name", password: "password", url: "url", username: "username");
+    Password password = Password(passwordId: "1", friendlyName: "name", password: "password", url: "url", username: "username");
     McokPasswordApiService service = McokPasswordApiService();
     when(() => service.updatePassword(password)).thenAnswer((_) async => true);
     serviceManager.passwordApiService = service;
@@ -95,7 +95,7 @@ void main(){
     expect(result, true);
   });
   test("updatePassword rethows apiException", () async {
-    Password password = Password(id: "1", friendlyName: "name", password: "password", url: "url", username: "username");
+    Password password = Password(passwordId: "1", friendlyName: "name", password: "password", url: "url", username: "username");
 
     McokPasswordApiService service = McokPasswordApiService();
     when(() => service.updatePassword(password)).thenThrow(ApiException(400, "From unittest updatePassword"));
@@ -106,15 +106,35 @@ void main(){
   test("updatePassword throws exception on validation error", () async {
 
     Password passwordWithoutId = Password(friendlyName: "name", password: "password", url: "url", username: "username");
-    Password passwordWithoutFriendlyName = Password(id: "1", password: "password", url: "url", username: "username");
-    Password passwordWithoutPassword = Password(id: "1", friendlyName: "name", url: "url", username: "username");
-    Password passwordWithoutUrl = Password(id: "1", friendlyName: "name", password: "password", username: "username");
-    Password passwordWithoutUsername = Password(id: "1", friendlyName: "name", password: "password", url: "url",);
+    Password passwordWithoutFriendlyName = Password(passwordId: "1", password: "password", url: "url", username: "username");
+    Password passwordWithoutPassword = Password(passwordId: "1", friendlyName: "name", url: "url", username: "username");
+    Password passwordWithoutUrl = Password(passwordId: "1", friendlyName: "name", password: "password", username: "username");
+    Password passwordWithoutUsername = Password(passwordId: "1", friendlyName: "name", password: "password", url: "url",);
 
     expect(() => serviceManager.updatePassword(passwordWithoutId), throwsA(isA<Exception>()));
     expect(() => serviceManager.updatePassword(passwordWithoutFriendlyName), throwsA(isA<Exception>()));
     expect(() => serviceManager.updatePassword(passwordWithoutPassword), throwsA(isA<Exception>()));
     expect(() => serviceManager.updatePassword(passwordWithoutUrl), throwsA(isA<Exception>()));
     expect(() => serviceManager.updatePassword(passwordWithoutUsername), throwsA(isA<Exception>()));
+  });
+  test("deletePassword successful", () async {
+
+    McokPasswordApiService service = McokPasswordApiService();
+    when(() => service.deletePassword("1")).thenAnswer((_) async => true);
+    serviceManager.passwordApiService = service;
+
+    bool result = await serviceManager.deletePassword("1");
+
+    expect(result, true);
+  });
+  test("deletePassword on throws api-exception", () async {
+      
+    McokPasswordApiService service = McokPasswordApiService();
+    when(() => service.deletePassword("1")).thenThrow(ApiException(400, "From unittest deletePassword"));
+    serviceManager.passwordApiService = service;
+    
+    bool result = await serviceManager.deletePassword("1");
+
+    expect(result, false);
   });
 }

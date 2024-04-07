@@ -8,13 +8,13 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final _groupStateController = StreamController<AuthState>.broadcast();
+  final _authStateController = StreamController<AuthState>.broadcast();
 
-  StreamSink<AuthState> get _currentGroupSink => 
-  _groupStateController.sink;
+  StreamSink<AuthState> get _currentAuthSink => 
+  _authStateController.sink;
 
   Stream<AuthState> get authState => 
-  _groupStateController.stream;
+  _authStateController.stream;
 
   final _eventStreamController = StreamController<AuthEvent>();
 
@@ -25,11 +25,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc() : super(AuthInitial()) {
     _eventStreamController.stream.listen(_mapEventToState);
-    _currentGroupSink.add(state);
+    _currentAuthSink.add(state);
   }
   Future<void> _mapEventToState(AuthEvent event) async {
     await event.execute(state);
-    _currentGroupSink.add(state);
+    _currentAuthSink.add(state);
   }
 }
 

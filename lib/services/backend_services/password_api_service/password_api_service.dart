@@ -17,6 +17,7 @@ class PasswordApiService extends BaseApiService{
       logger.d("Api call get passwords failed with status code ${response.statusCode} and body ${response.body}");
       throw ApiException(response.statusCode, response.body);
     }
+    logger.d("Passwords fetched successfully ${response.body}  ${response.statusCode}");
     List<Password> passwords =
             List<Password>.from(json.decode(response.body).map((model) => Password.fromJson(model)));
     return passwords;
@@ -37,7 +38,7 @@ class PasswordApiService extends BaseApiService{
     return true;
   }
   Future<bool> updatePassword(Password password) async {
-    Uri endpoint = apiEndpoints.passwordsUriWithId(password.id!);
+    Uri endpoint = apiEndpoints.passwordsUriWithId(password.passwordId!);
 
     var response = await httpExecutor.put(endpoint, body: password.toJson());
 
@@ -45,7 +46,7 @@ class PasswordApiService extends BaseApiService{
       logger.d("Api call update password failed with status code ${response.statusCode} and body ${response.body}");
       throw ApiException(response.statusCode, response.body);
     }
-
+    logger.d(response.body);
     return true;
   }
   Future<String> generatePassword(double length) async {
@@ -59,5 +60,16 @@ class PasswordApiService extends BaseApiService{
     }
 
     return  json.decode(response.body)["password"];
+  }
+  Future<bool> deletePassword(String passwordId) async {
+    Uri endpoint = apiEndpoints.passwordUriWithId(passwordId);
+
+    var response = await httpExecutor.delete(endpoint);
+
+    if(!response.isOk){
+      logger.d("Api call delete password failed with status code ${response.statusCode} and body ${response.body}");
+      throw ApiException(response.statusCode, response.body);
+    }
+    return true;
   }
 }

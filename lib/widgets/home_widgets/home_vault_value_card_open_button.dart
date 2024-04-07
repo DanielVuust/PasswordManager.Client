@@ -20,7 +20,7 @@ class HomeVaultValueCardOpenButton extends StatelessWidget {
               '/vaultValueScreen',
               arguments: vaultValue,
             );
-            await Future.delayed(Duration(seconds: 3));
+            await Future.delayed(Duration(seconds: 1));
             BlocProvider.of<VaultBloc>(context).eventSink.add(GetVaultValues());
           },
           child: const Text(

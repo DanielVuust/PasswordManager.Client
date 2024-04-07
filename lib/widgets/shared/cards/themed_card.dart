@@ -12,15 +12,7 @@ class ThemedCard extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
         child: Container(
-          padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-              // boxShadow: [
-              //   BoxShadow(
-              //     color: Theme.of(context).primaryColor,
-              //     spreadRadius: 0,
-              //     blurRadius: 2,
-              //   ),
-              // ],
               borderRadius: BorderRadius.circular(4),
               color: Theme.of(context).cardColor),
           alignment: Alignment.topLeft,

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -119,25 +120,39 @@ class _EditPasswordVaultValueInputContainerState extends State<EditPasswordVault
                       
                       BlocProvider.of<EditVaultValueBloc>(context)
                         .eventSink
-                        .add(GeneratePassword(widget.generatePasswordLength));
+                        .add(GeneratePassword(widget.newPassword,  widget.generatePasswordLength));
                      },
                     ),
               ),
               
             ],
           ),
-          Slider(
-                value: widget.generatePasswordLength,
-                divisions: 120,
-                label: widget.generatePasswordLength.round().toString(),
-                onChanged: (double value) {
-                    BlocProvider.of<EditVaultValueBloc>(context)
-                  .eventSink
-                  .add(SetGeneratePasswordLength(value));
-                },
-                min: 8,
-                max: 128,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(widget.generatePasswordLength.round().toString(),),
               ),
+              
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+
+                child: Slider(
+                      value: widget.generatePasswordLength,
+                      divisions: 120,
+                      label: widget.generatePasswordLength.round().toString(),
+                      onChanged: (double value) {
+                          BlocProvider.of<EditVaultValueBloc>(context)
+                        .eventSink
+                        .add(SetGeneratePasswordLength(value));
+                      },
+                      min: 8,
+                      max: 128,
+                    ),
+              ),
+            ],
+            ),
           ElevatedButton(
             onPressed: () {
               if (_formKey.currentState!.validate()) {

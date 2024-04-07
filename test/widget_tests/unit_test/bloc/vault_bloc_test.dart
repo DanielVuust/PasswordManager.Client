@@ -11,7 +11,7 @@ class McokPasswordServiceManager extends Mock implements PasswordServiceManager 
 void main() {
   
   test('GetVaultValues bloc event', () async {
-    List<Password> passwords = [Password(id: "233", friendlyName: "3", password: "password3", url: "url3", username: "username3"), Password(id: "1", friendlyName: "name", password: "password", url: "url", username: "username"), Password(id: "323", friendlyName: "name2", password: "password2", url: "url2", username: "username2")];
+    List<Password> passwords = [Password(passwordId: "233", friendlyName: "3", password: "password3", url: "url3", username: "username3"), Password(passwordId: "1", friendlyName: "name", password: "password", url: "url", username: "username"), Password(passwordId: "323", friendlyName: "name2", password: "password2", url: "url2", username: "username2")];
     
     McokPasswordServiceManager serviceManager = McokPasswordServiceManager();
 
@@ -26,8 +26,40 @@ void main() {
 
     List<IVaultValue> vaultValue = [];
     vaultValue.addAll(passwords);
-    vaultValue.sort((a, b) => a.id!.compareTo(b.id!));
 
     expect(state.vaultValue, vaultValue);
+  });
+
+  test("DeleteVaultValue bloc event successful", () async {
+    Password password = Password(passwordId: "1", friendlyName: "name", password: "password", url: "url", username: "username");
+    McokPasswordServiceManager serviceManager = McokPasswordServiceManager();
+
+    when(() => serviceManager.deletePassword(password.passwordId!)).thenAnswer((_) async => true);
+
+    DeleteVaultValue event = DeleteVaultValue(password);
+    event.passwordServiceManager = serviceManager;
+    VaultState state = VaultInitial();
+    state.vaultValue.add(password);
+
+    state = await event.execute(state);
+
+    expect(state.vaultValue.length, 0);
+  });
+
+  test("DeleteVaultValue bloc event fail", () async {
+    Password password = Password(passwordId: "1", friendlyName: "name", password: "password", url: "url", username: "username");
+    McokPasswordServiceManager serviceManager = McokPasswordServiceManager();
+
+    when(() => serviceManager.deletePassword(password.passwordId!)).thenAnswer((_) async => false);
+
+    DeleteVaultValue event = DeleteVaultValue(password);
+    event.passwordServiceManager = serviceManager;
+    VaultState state = VaultInitial();
+    state.vaultValue.add(password);
+
+    state = await event.execute(state);
+
+    expect(state.vaultValue.length, 1);
+    expect(state.error, true);
   });
 }

@@ -20,7 +20,7 @@ void main(){
   });
   PasswordApiService passwordApiService = PasswordApiService();
   test("PasswordApiService.getPasswrods successfull", () async {
-    List<Password> passwords = [Password(id: "1", friendlyName: "name", password: "password", url: "url", username: "username"), Password(id: "2", friendlyName: "name2", password: "password2", url: "url2", username: "username2"), Password(id: "3", friendlyName: "name3", password: "password3", url: "url3", username: "username3")];
+    List<Password> passwords = [Password(passwordId: "1", friendlyName: "name", password: "password", url: "url", username: "username"), Password(passwordId: "2", friendlyName: "name2", password: "password2", url: "url2", username: "username2"), Password(passwordId: "3", friendlyName: "name3", password: "password3", url: "url3", username: "username3")];
     HttpExecutorMock httpExecutor = HttpExecutorMock();
     when(() => httpExecutor.get(ApiEndpoints().passwordsUri())).thenAnswer((_) async => http.Response(jsonEncode(passwords.map((e) => e.toJson()).toList()), 200));
     passwordApiService.httpExecutor = httpExecutor;
@@ -30,7 +30,7 @@ void main(){
     expect(result.toString(), passwords.toString());
   });
   test("PasswordApiService.getPasswrods throws apiException on non-sucessfull statuscode", () async {
-    List<Password> passwords = [Password(id: "1", friendlyName: "name", password: "password", url: "url", username: "username"), Password(id: "2", friendlyName: "name2", password: "password2", url: "url2", username: "username2"), Password(id: "3", friendlyName: "name3", password: "password3", url: "url3", username: "username3")];
+    List<Password> passwords = [Password(passwordId: "1", friendlyName: "name", password: "password", url: "url", username: "username"), Password(passwordId: "2", friendlyName: "name2", password: "password2", url: "url2", username: "username2"), Password(passwordId: "3", friendlyName: "name3", password: "password3", url: "url3", username: "username3")];
     HttpExecutorMock httpExecutor = HttpExecutorMock();
     passwordApiService.httpExecutor = httpExecutor;
 
@@ -65,7 +65,7 @@ void main(){
   });
 
   test("PasswordApiService.updatePassword successfull", () async {
-    Password password = Password(id: "1", friendlyName: "name", password: "password", url: "url", username: "username");
+    Password password = Password(passwordId: "1", friendlyName: "name", password: "password", url: "url", username: "username");
     HttpExecutorMock httpExecutor = HttpExecutorMock();
     when(() => httpExecutor.put(any(), body: any(named: "body"))).thenAnswer((_) async => http.Response("", 201));
     passwordApiService.httpExecutor = httpExecutor;
@@ -76,7 +76,7 @@ void main(){
   });
 
   test("PasswordApiService.updatePassword throws apiException on non-sucessfull statuscode", () async {
-    Password password = Password(id: "1", friendlyName: "name", password: "password", url: "url", username: "username");
+    Password password = Password(passwordId: "1", friendlyName: "name", password: "password", url: "url", username: "username");
     HttpExecutorMock httpExecutor = HttpExecutorMock();
     passwordApiService.httpExecutor = httpExecutor;
 
@@ -108,5 +108,23 @@ void main(){
     expect(() => passwordApiService.generatePassword(10), throwsA(isA<ApiException>()));
   });
 
-  
+  test("PasswordApiService.deletePassword successfull", () async {
+    HttpExecutorMock httpExecutor = HttpExecutorMock();
+    when(() => httpExecutor.delete(any())).thenAnswer((_) async => http.Response("", 201));
+    passwordApiService.httpExecutor = httpExecutor;
+
+    bool result = await passwordApiService.deletePassword("1");
+
+    expect(result, true);
+  });
+  test("PasswordApiService.deletePassword throws apiException on non-sucessfull statuscode", () async {
+    HttpExecutorMock httpExecutor = HttpExecutorMock();
+    passwordApiService.httpExecutor = httpExecutor;
+
+    when(() => httpExecutor.delete(any())).thenAnswer((_) async => http.Response("", 400));
+    expect(() => passwordApiService.deletePassword("1"), throwsA(isA<ApiException>()));
+
+    when(() => httpExecutor.delete(any())).thenAnswer((_) async => http.Response("", 500));
+    expect(() => passwordApiService.deletePassword("1"), throwsA(isA<ApiException>()));
+  });
 }

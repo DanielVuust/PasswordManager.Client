@@ -6,9 +6,8 @@ part 'user.g.dart';
 class User {
   final int? id;
   final String? firebaseUid;
-  final String? iconUrl;
 
-  User(this.id, this.firebaseUid, this.iconUrl,);
+  User(this.id, this.firebaseUid,);
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

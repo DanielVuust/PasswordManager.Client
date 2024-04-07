@@ -7,8 +7,7 @@ part 'password.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Password implements IVaultValue{
-  @override
-  String? id;
+  String? passwordId;
   @override
   @JsonKey(includeToJson: false, includeFromJson: false)
   String? title, subTitle;
@@ -20,7 +19,7 @@ class Password implements IVaultValue{
 
   late String? url, password, username, friendlyName;
 
-  Password({this.id, this.url, this.password, this.username, this.friendlyName}){
+  Password({this.passwordId, this.url, this.password, this.username, this.friendlyName}){
     title = friendlyName;
     subTitle = url;
   }

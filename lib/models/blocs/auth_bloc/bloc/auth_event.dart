@@ -7,12 +7,12 @@ abstract class AuthEvent {
 }
 
 class LoginEvent extends AuthEvent {
-  LoginEvent(this.user);
-  final User user;
+  LoginEvent(this._user);
+  final User _user;
   @override
   execute(AuthState state) async {
     log.t("Calling LoginEvent");
-    state.user = user;
+    state.user = _user;
   }
 }
 class NotifyStream extends AuthEvent {
