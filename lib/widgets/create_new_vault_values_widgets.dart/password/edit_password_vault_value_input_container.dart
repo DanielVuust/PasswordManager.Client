@@ -147,7 +147,7 @@ class _EditPasswordVaultValueInputContainerState extends State<EditPasswordVault
                         .eventSink
                         .add(SetGeneratePasswordLength(value));
                       },
-                      min: 8,
+                      min: 9,
                       max: 128,
                     ),
               ),

@@ -20,8 +20,8 @@ class _HomeScreenState extends State<HomeScreen> {
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             BlocProvider.of<EditVaultValueBloc>(context).eventSink.add(SetVaultValue(Password()));
-            Navigator.pushNamed(context, '/createVaultValue');
-            await Future.delayed(Duration(seconds: 1));
+            await Navigator.pushNamed(context, '/createVaultValue');
+            await Future.delayed(Duration(seconds: 2));
             BlocProvider.of<VaultBloc>(context).eventSink.add(GetVaultValues());
           },
           child: Icon(Icons.add),
